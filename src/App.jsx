@@ -1,30 +1,51 @@
-import React from "react";
-import "./styles/App.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
+import Card from "./components/Card";
+
 function App() {
-  let todoList = [
+  const [todo, setTodo] = useState([
     { id: 111, title: "write the code" },
     { id: 121, title: "clean the home" },
     { id: 131, title: "cook food" },
-  ];
+  ]);
+
+  useEffect(() => {
+    localStorage.getItem("todoList")
+      ? setTodo(JSON.parse(localStorage.getItem("todoList")))
+      : localStorage.setItem("todoList", JSON.stringify(todo));
+  }, []);
+
+  const addTodo = (e) => {
+    e.preventDefault();
+    let newObj = {
+      id: Date.now(),
+      title: e.target[0].value,
+    };
+    if (newObj.title !== "") {
+      setTodo([...todo, newObj]);
+      localStorage.setItem("todoList", JSON.stringify([...todo, newObj]));
+      e.target.reset();
+    }
+  };
+
+  const deleteTodo = (id) => {
+    let confirmation =window.confirm("Are you sure to delete this item?");
+    if(confirmation){
+      let data = todo.filter((t) => t.id !== id);
+      setTodo(data);
+      localStorage.setItem("todoList", JSON.stringify(data));
+    }
+  };
+  const deleteAll = (id) =>{
+    let confirm = window.confirm("Are you sure you want to delete all items?");
+    if(confirm){
+      setTodo([]);
+      localStorage.setItem("todoList", JSON.stringify([]));
+    }
+  }
+
   return (
     <div className="App">
-      <div className="card border rounded shadow mx-auto my-10">
-        <div className="card-title border-b-2 border-amber-200">
-          <p className="text-amber-500 p-2 font-semibold">Today's todo</p>
-        </div>
-        <div className="card-body divide-y divide-slate-200">
-          {todoList.map((todo, index) => {
-            return (
-              <div className="flex justify-between items-center my-2 p-2" key={todo.id}>
-                {todo.title}
-                <FontAwesomeIcon icon={faPaperPlane}></FontAwesomeIcon>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <Card addTodo={addTodo} todoList={todo} deleteTodo={deleteTodo} deleteAll={deleteAll} />
     </div>
   );
 }

@@ -26,3 +26,6 @@ img{
 .card{
     max-width:600px;
 }
+input{
+    /* overflow: hidden; */
+}
