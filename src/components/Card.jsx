@@ -12,7 +12,7 @@ const Card = ({addTodo, todoList, deleteTodo, deleteAll}) => {
         <div className="card-body divide-y divide-slate-200">
           <form onSubmit={addTodo}>
             <div className="flex justify-between p-2">
-              <input type="text" className="outline-0 w-full" placeholder="Add your comments" />
+              <input type="text" required className="outline-0 w-full" placeholder="Add your comments" />
               <button type="submit">
                 <FontAwesomeIcon icon={faPaperPlane}></FontAwesomeIcon>
               </button>
@@ -24,9 +24,13 @@ const Card = ({addTodo, todoList, deleteTodo, deleteAll}) => {
                 className="card-body flex justify-between items-center my-2 p-2"
                 key={todo.id}
               >
+                <div className='flex items-center gap-2'>
+                <input type="checkbox"/>
                 {todo.title}
-                <FontAwesomeIcon icon={faPaperPlane}></FontAwesomeIcon>
+                </div>
+
                 <FontAwesomeIcon icon={faTrash} onClick={()=>deleteTodo(todo.id)}></FontAwesomeIcon>
+
               </div>
             );
           })}
