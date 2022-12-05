@@ -26,6 +26,11 @@ img{
 .card{
     max-width:600px;
 }
+
 input{
-    /* overflow: hidden; */
+    overflow: hidden;
+    accent-color: rgb(245 158 11);
 }
+/* .checkbox{
+    accent-color:orange;
+} */
